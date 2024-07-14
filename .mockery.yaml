@@ -1,0 +1,21 @@
+quiet: False
+disable-version-string: True
+with-expecter: True
+mockname: "{{.InterfaceName}}"
+filename: "{{.InterfaceName | lower}}_mock.go"
+outpkg: mocks
+packages:
+  github.com/tech-challenge-fiap-5soat/tc-ff-order-api/interfaces:
+    config:
+      dir: "test/mocks"
+      mockname: "Mock{{.InterfaceName}}"
+    interfaces:
+      CustomerGateway:
+      CustomerUseCase:
+      CheckoutUseCase:
+      DataSource:
+      OrderGateway:
+      OrderUseCase:
+      ProductGateway:
+      ProductUseCase:
+      PaymentGateway:
