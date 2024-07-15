@@ -39,11 +39,11 @@ jobs:
       with:
         go-version: '1.21'
 
-    - name: Upload coverage report
+    - name: Download coverage report
       uses: actions/download-artifact@v3
       with:
         name: coverage-report
-        path: coverage.out
+        path: /github/workspace/coverage.out
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v2
@@ -54,4 +54,4 @@ jobs:
         args: >
           -Dsonar.organization=tech-challenge-fiap-5soat
           -Dsonar.projectKey=tech-challenge-fiap-5soat_tc-ff-order-api
-          -Dsonar.go.coverage.reportPaths=/home/runner/work/tc-ff-order-api/tc-ff-order-api/coverage.out
+          -Dsonar.go.coverage.reportPaths=/github/workspace/coverage.out
