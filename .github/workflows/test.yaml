@@ -52,7 +52,7 @@ jobs:
       run: ls -la coverage
 
     - name: Show contents of coverage file (debugging step)
-      run: cat coverage/coverage.out
+      run: cat coverage/go-test-report.json
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v2
