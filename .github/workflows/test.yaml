@@ -1,4 +1,4 @@
-on: [push, pull_request]
+on: [pull_request]
 name: Go Unit Test and Coverage
 
 jobs:
@@ -54,4 +54,4 @@ jobs:
         args: >
           -Dsonar.organization=tech-challenge-fiap-5soat
           -Dsonar.projectKey=tech-challenge-fiap-5soat_tc-ff-order-api
-          -Dsonar.go.coverage.reportPaths=coverage.out
+          -Dsonar.go.coverage.reportPaths=/home/runner/work/tc-ff-order-api/tc-ff-order-api/coverage.out
