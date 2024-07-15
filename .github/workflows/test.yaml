@@ -16,6 +16,9 @@ jobs:
       uses: actions/checkout@v2
     - name: Test
       run: go mod tidy && go test ./... -coverprofile=coverage.out -covermode=atomic
+    - name: Create folder
+      run: |
+        mkdir -p /home/runner/work/tc-ff-order-api/tc-ff-order-api/bin
     - name: Archive code coverage results
       uses: actions/upload-artifact@v1
       with:
