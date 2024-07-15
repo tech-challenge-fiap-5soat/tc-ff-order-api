@@ -17,10 +17,10 @@ jobs:
     - name: Test
       run: go mod tidy && go test ./... -coverprofile=coverage.out -covermode=atomic
     - name: Archive code coverage results
-        uses: actions/upload-artifact@v1
-        with:
-          name: coverage.out
-          path: bin  
+      uses: actions/upload-artifact@v1
+      with:
+        name: coverage.out
+        path: bin  
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       env:
