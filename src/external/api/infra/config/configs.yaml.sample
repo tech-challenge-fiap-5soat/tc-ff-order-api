@@ -11,3 +11,5 @@ api:
    clientId:   "cid"
    tokenUse:   "access"
   authorizationUrl: "https://apigateway.com/default/food-fiap-auth"
+  checkoutServiceURL: "https://tc-ff-payments-api.free.beeceptor.com"
+  kitchenServiceUrl: "http://localhost:8077/api/v1"

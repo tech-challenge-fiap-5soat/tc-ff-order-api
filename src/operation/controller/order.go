@@ -16,9 +16,10 @@ type OrderController struct {
 func NewOrderController(datasource interfaces.DatabaseSource,
 	productUseCase interfaces.ProductUseCase,
 	customerUseCase interfaces.CustomerUseCase,
+	kitchenService interfaces.KitchenService,
 ) interfaces.OrderController {
 
-	gateway := gateway.NewOrderGateway(datasource)
+	gateway := gateway.NewOrderGateway(datasource, kitchenService)
 	return &OrderController{
 		useCase: usecase.NewOrderUseCase(gateway, productUseCase, customerUseCase),
 	}

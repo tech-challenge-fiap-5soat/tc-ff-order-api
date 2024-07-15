@@ -69,7 +69,11 @@ func registerOrderHandler(groupServer *gin.RouterGroup, dbClient mongo.Client) {
 	customerGateway := gateway.NewCustomerGateway(customerDbAdapter)
 	customerUseCase := usecase.NewCustomerUseCase(customerGateway)
 
-	orderInteractor := controller.NewOrderController(orderDbAdapter, productUseCase, customerUseCase)
+	kitchenService := gateway.NewKitchenService(gateway.KitchenServiceConfig{
+		Timeout:               5,
+		KitchenServiceBaseUrl: config.GetApiCfg().KitchenServiceURL,
+	})
+	orderInteractor := controller.NewOrderController(orderDbAdapter, productUseCase, customerUseCase, kitchenService)
 
 	handlers.NewOrderHandler(groupServer, orderInteractor)
 }
@@ -97,7 +101,12 @@ func registerCheckoutHandler(groupServer *gin.RouterGroup, dbClient mongo.Client
 		config.GetMongoCfg().Database,
 		constants.OrderCollection,
 	)
-	orderGateway := gateway.NewOrderGateway(orderDbAdapter)
+	kitchenService := gateway.NewKitchenService(gateway.KitchenServiceConfig{
+		Timeout:               5,
+		KitchenServiceBaseUrl: config.GetApiCfg().KitchenServiceURL,
+	})
+
+	orderGateway := gateway.NewOrderGateway(orderDbAdapter, kitchenService)
 	orderUseCase := usecase.NewOrderUseCase(orderGateway, productUseCase, customerUseCase)
 
 	paymentGateway := gateway.NewPaymentGateway(gateway.PaymentGatewayConfig{

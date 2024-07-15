@@ -10,11 +10,13 @@ import (
 )
 
 type orderGateway struct {
-	datasource interfaces.DatabaseSource
+	datasource     interfaces.DatabaseSource
+	kitchenService interfaces.KitchenService
 }
 
-func NewOrderGateway(datasource interfaces.DatabaseSource) interfaces.OrderGateway {
-	return &orderGateway{datasource: datasource}
+func NewOrderGateway(datasource interfaces.DatabaseSource,
+	kitchenService interfaces.KitchenService) interfaces.OrderGateway {
+	return &orderGateway{datasource: datasource, kitchenService: kitchenService}
 }
 
 func (og *orderGateway) FindAll() ([]entity.Order, error) {
@@ -85,6 +87,14 @@ func (og *orderGateway) Update(order *entity.Order) error {
 		dto.OrderEntityToUpdateRecordDTO(order),
 	)
 
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (og *orderGateway) RequetOrderPreparation(order *entity.Order) error {
+	err := og.kitchenService.RequetOrderPreparation(*order)
 	if err != nil {
 		return err
 	}

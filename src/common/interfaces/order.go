@@ -13,6 +13,7 @@ type OrderUseCase interface {
 	CreateOrder(order dto.OrderCreateDTO) (string, error)
 	UpdateOrder(orderId string, order dto.OrderUpdateDTO) error
 	UpdateOrderStatus(orderId string, status valueobject.OrderStatus) error
+	RequetOrderPreparation(order *entity.Order) error
 }
 
 type OrderGateway interface {
@@ -21,6 +22,7 @@ type OrderGateway interface {
 	FindAllByStatus(status valueobject.OrderStatus) ([]entity.Order, error)
 	Save(order *entity.Order) (string, error)
 	Update(order *entity.Order) error
+	RequetOrderPreparation(order *entity.Order) error
 }
 
 type OrderController interface {

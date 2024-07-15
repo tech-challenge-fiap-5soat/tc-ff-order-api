@@ -228,11 +228,6 @@ func (handler orderHandler) UpdateStatusOrderHandler(c *gin.Context) {
 		return
 	}
 
-	if sts.IsPaymentStatus() {
-		c.JSON(http.StatusForbidden, gin.H{"error": "it is not allowed to directly change the payment status"})
-		return
-	}
-
 	err = handler.interactor.UpdateOrderStatus(orderId, sts)
 
 	if err != nil && strings.Contains(err.Error(), "record not found") {

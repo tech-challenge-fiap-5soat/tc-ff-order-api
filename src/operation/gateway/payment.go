@@ -39,7 +39,8 @@ func (pg *paymentGateway) RequestPayment(order entity.Order) (dto.CreateCheckout
 		return dto.CreateCheckout{}, fmt.Errorf("error occurred while encoding order data: %s", err.Error())
 	}
 
-	req, err := http.NewRequest("POST", pg.checkoutServiceURL, bytes.NewBuffer(jsonData))
+	url := fmt.Sprintf("%s/payment", pg.checkoutServiceURL)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return dto.CreateCheckout{}, fmt.Errorf("error occurred while creating request: %s", err.Error())
 	}

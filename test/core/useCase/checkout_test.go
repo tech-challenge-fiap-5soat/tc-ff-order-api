@@ -110,12 +110,16 @@ func TestCheckoutUseCase(t *testing.T) {
 		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_PENDING}
 		updatedOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_APPROVED}
+		prepareOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_BEING_PREPARED}
 
 		orderGatewayMock := mocks.NewMockOrderGateway(t)
 		orderUseCase := usecase.NewOrderUseCase(orderGatewayMock, productUseCase, customerUseCase)
 
 		orderGatewayMock.On("FindById", orderId).Return(existentOrder, nil)
 		orderGatewayMock.On("Update", updatedOrder).Return(nil)
+		orderGatewayMock.On("RequetOrderPreparation", existentOrder).Return(nil)
+		orderGatewayMock.On("Update", prepareOrder).Return(nil)
+
 		useCase := usecase.NewCheckoutUseCase(orderUseCase, paymentGatewayMock)
 
 		err := useCase.UpdateCheckout(orderId, orderStatus.ORDER_PAYMENT_APPROVED)

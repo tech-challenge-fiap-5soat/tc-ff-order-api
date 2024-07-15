@@ -17,8 +17,8 @@ var (
 func InitMongoDbConfiguration(ctx context.Context) (mongo.Client, error) {
 
 	mongoCfg := GetMongoCfg()
-	//uri := fmt.Sprintf("mongodb://%s:%s", mongoCfg.Host, mongoCfg.Port)
-	uri := fmt.Sprintf("mongodb+srv://%s:%s@%s/?appName=%s&retryWrites=true&w=majority", mongoCfg.User, mongoCfg.Pass, mongoCfg.Host, mongoCfg.Database)
+	uri := fmt.Sprintf("mongodb://%s:%s/?appName=%s", mongoCfg.Host, mongoCfg.Port, mongoCfg.Database)
+	//uri := fmt.Sprintf("mongodb+srv://%s:%s@%s/?appName=%s&retryWrites=true&w=majority", mongoCfg.User, mongoCfg.Pass, mongoCfg.Host, mongoCfg.Database)
 
 	client, err := mongo.Connect(
 		ctx,

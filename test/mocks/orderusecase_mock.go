@@ -253,6 +253,52 @@ func (_c *MockOrderUseCase_GetAllByStatus_Call) RunAndReturn(run func(valueobjec
 	return _c
 }
 
+// RequetOrderPreparation provides a mock function with given fields: order
+func (_m *MockOrderUseCase) RequetOrderPreparation(order *entity.Order) error {
+	ret := _m.Called(order)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RequetOrderPreparation")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*entity.Order) error); ok {
+		r0 = rf(order)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockOrderUseCase_RequetOrderPreparation_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RequetOrderPreparation'
+type MockOrderUseCase_RequetOrderPreparation_Call struct {
+	*mock.Call
+}
+
+// RequetOrderPreparation is a helper method to define mock.On call
+//   - order *entity.Order
+func (_e *MockOrderUseCase_Expecter) RequetOrderPreparation(order interface{}) *MockOrderUseCase_RequetOrderPreparation_Call {
+	return &MockOrderUseCase_RequetOrderPreparation_Call{Call: _e.mock.On("RequetOrderPreparation", order)}
+}
+
+func (_c *MockOrderUseCase_RequetOrderPreparation_Call) Run(run func(order *entity.Order)) *MockOrderUseCase_RequetOrderPreparation_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(*entity.Order))
+	})
+	return _c
+}
+
+func (_c *MockOrderUseCase_RequetOrderPreparation_Call) Return(_a0 error) *MockOrderUseCase_RequetOrderPreparation_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockOrderUseCase_RequetOrderPreparation_Call) RunAndReturn(run func(*entity.Order) error) *MockOrderUseCase_RequetOrderPreparation_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateOrder provides a mock function with given fields: orderId, order
 func (_m *MockOrderUseCase) UpdateOrder(orderId string, order dto.OrderUpdateDTO) error {
 	ret := _m.Called(orderId, order)

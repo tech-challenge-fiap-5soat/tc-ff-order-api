@@ -106,3 +106,7 @@ func (o OrderStatus) GetPreviousStatus() []OrderStatus {
 func (o OrderStatus) OrderCanBeUpdated() bool {
 	return o == ORDER_STARTED
 }
+
+func (o OrderStatus) IsPaid(status OrderStatus) bool {
+	return status == ORDER_PAYMENT_APPROVED
+}
