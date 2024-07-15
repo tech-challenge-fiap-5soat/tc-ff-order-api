@@ -51,7 +51,7 @@ jobs:
     - name: List files (debugging step)
       run: ls -la coverage
 
-    - name: Show sonar-props
+    - name: Show sonar-propss
       run: cat sonar-project.properties
 
     - name: SonarCloud Scan
