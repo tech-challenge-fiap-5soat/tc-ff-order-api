@@ -216,6 +216,13 @@ func (o *orderUseCase) UpdateOrderStatus(orderId string, status orderStatus.Orde
 		return err
 	}
 
+	if order.OrderStatus.IsPaid(status) {
+		err = o.RequetOrderPreparation(order)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -233,4 +240,12 @@ func sortByStatus(firstOrder entity.Order, secondOrder entity.Order) bool {
 func sortByCreatedAt(firstOrder entity.Order, secondOrder entity.Order) bool {
 	return !secondOrder.CreatedAt.Equal(firstOrder.CreatedAt.Time) &&
 		secondOrder.CreatedAt.Before(firstOrder.CreatedAt.Time)
+}
+
+func (o *orderUseCase) RequetOrderPreparation(order *entity.Order) error {
+	err := o.gateway.RequetOrderPreparation(order)
+	if err != nil {
+		return err
+	}
+	return o.updateOrderStatus(*order, orderStatus.ORDER_BEING_PREPARED)
 }

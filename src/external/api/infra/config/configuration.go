@@ -20,28 +20,30 @@ var (
 )
 
 type Config struct {
-	MongoCfg MongoConfig `yaml:"mongodb"`
-	ApiCfg   Api         `yaml:"api"`
+	MongoCfg MongoConfig `mapstructure:"mongodb"`
+	ApiCfg   Api         `mapstructure:"api"`
 }
 
 type MongoConfig struct {
-	Host     string `yaml:"host"`
-	Database string `yaml:"database"`
-	User     string `yaml:"user"`
-	Pass     string `yaml:"pass"`
+	Host     string `mapstructure:"host"`
+	Port     string `mapstructure:"port"`
+	Database string `mapstructure:"database"`
+	User     string `mapstructure:"user"`
+	Pass     string `mapstructure:"pass"`
 }
 
 type Api struct {
-	Port                 string     `yaml:"port"`
-	AuthConfig           AuthConfig `yaml:"authConfig"`
-	AuthorizationBaseUrl string     `yaml:"authorizationUrl"`
-	CheckoutServiceURL   string     `yaml:"checkoutServiceURL"`
+	Port                 string     `mapstructure:"port"`
+	AuthConfig           AuthConfig `mapstructure:"authconfig"`
+	AuthorizationBaseUrl string     `mapstructure:"authorizationurl"`
+	CheckoutServiceURL   string     `mapstructure:"checkoutserviceurl"`
+	KitchenServiceURL    string     `mapstructure:"kitchenServiceUrl"`
 }
 
 type AuthConfig struct {
-	UserPoolId string `yaml:"userPoolId"`
-	ClientId   string `yaml:"clientId"`
-	TokenUse   string `yaml:"tokenUse"`
+	UserPoolId string `mapstructure:"userpoolid"`
+	ClientId   string `mapstructure:"clientid"`
+	TokenUse   string `mapstructure:"tokenuse"`
 }
 
 func init() {
@@ -71,12 +73,8 @@ func setupConfig() *Config {
 		viper.AddConfigPath("/app/data/configs")
 		err := viper.ReadInConfig()
 
-		//if err = viper.ReadInConfig(); err != nil {
-		//	panic(fmt.Errorf("Falha ao carregar as configurações: %w \n", err))
-		//}
-
 		if err != nil && !allConfigsAreSet() {
-			panic(fmt.Errorf("Falha ao carregar as configurações: %w \n", err))
+			panic(fmt.Errorf("falha ao carregar as configurações: %w", err))
 		}
 
 		for _, key := range viper.AllKeys() {
@@ -85,8 +83,11 @@ func setupConfig() *Config {
 			viper.Set(key, string(envOrRaw))
 		}
 
-		if err = viper.Unmarshal(&config); err != nil {
-			panic(err)
+		if err == nil {
+			err := viper.Unmarshal(&appConfig)
+			if err != nil {
+				panic(err)
+			}
 		}
 
 		if allConfigsAreSet() { // load envs from infra
