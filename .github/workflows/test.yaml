@@ -18,13 +18,13 @@ jobs:
       run: go mod download
 
     - name: Run tests
-      run: go mod tidy && go test ./... -coverprofile=coverage.out -covermode=atomic
+      run: go mod tidy && go test ./... -coverprofile=bin/coverage.out -covermode=atomic
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
-        path: coverage.out
+        path: bin
 
   sonarcloud:
     runs-on: ubuntu-latest
@@ -50,8 +50,3 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        args: >
-          -Dsonar.organization=tech-challenge-fiap-5soat
-          -Dsonar.projectKey=tech-challenge-fiap-5soat_tc-ff-order-api
-          -Dsonar.go.coverage.reportPaths=coverage.out
