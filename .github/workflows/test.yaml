@@ -17,14 +17,17 @@ jobs:
     - name: Install dependencies
       run: go mod download
 
+    - name: Create coverage directory
+      run: mkdir -p coverage  
+
     - name: Run tests
-      run: go mod tidy && go test ./... -coverprofile=bin/coverage.out -covermode=atomic
+      run: go mod tidy && go test ./... -coverprofile=coverage/coverage.out -covermode=atomic
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
-        path: bin
+        path: coverage/coverage.out
 
   sonarcloud:
     runs-on: ubuntu-latest
@@ -43,7 +46,13 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: coverage-report
-        path: coverage.out
+        path: coverage/coverage.out
+    
+    - name: List files (debugging step)
+      run: ls -la coverage
+
+    - name: Show contents of coverage file (debugging step)
+      run: cat coverage/coverage.out
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v2
