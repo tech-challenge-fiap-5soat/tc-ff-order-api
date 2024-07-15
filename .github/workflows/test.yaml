@@ -43,7 +43,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: coverage-report
-        path: /github/workspace/coverage.out
+        path: coverage.out
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v2
@@ -54,4 +54,4 @@ jobs:
         args: >
           -Dsonar.organization=tech-challenge-fiap-5soat
           -Dsonar.projectKey=tech-challenge-fiap-5soat_tc-ff-order-api
-          -Dsonar.go.coverage.reportPaths=/github/workspace/coverage.out
+          -Dsonar.go.coverage.reportPaths=coverage.out
