@@ -1,4 +1,4 @@
-on: [pull_request]
+on: [pull_request merged]
 name: Go Unit Test and Coverage
 
 jobs:
@@ -48,12 +48,6 @@ jobs:
         name: coverage-report
         path: coverage
     
-    - name: List files (debugging step)
-      run: ls -la coverage
-
-    - name: Show sonar-propss
-      run: cat sonar-project.properties
-
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v2
       env:
