@@ -1,4 +1,11 @@
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
 name: Go Unit Test and Coverage
 
 jobs:
@@ -21,7 +28,7 @@ jobs:
       run: mkdir -p coverage  
 
     - name: Run tests
-      run: go mod tidy && go test ./... -coverprofile=coverage/coverage.out -json ./... > coverage/go-test-report.json
+      run: go mod tidy && go test ./... -v -coverpkg=./... -coverprofile=coverage/coverage.out -json ./... > coverage/test.out
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
@@ -42,18 +49,15 @@ jobs:
       with:
         go-version: '1.21'
 
+    - name: Fetch all branches
+      run: git fetch --all
+
     - name: Download coverage report
       uses: actions/download-artifact@v3
       with:
         name: coverage-report
         path: coverage
     
-    - name: List files (debugging step)
-      run: ls -la coverage
-
-    - name: Show sonar-propss
-      run: cat sonar-project.properties
-
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v2
       env:

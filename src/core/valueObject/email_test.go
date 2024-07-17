@@ -1,9 +1,10 @@
-package valueobject
+package valueobject_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
 	. "github.com/tech-challenge-fiap-5soat/tc-ff-order-api/src/core/valueObject"
 )
 
