@@ -1,5 +1,11 @@
 # Fiap Tech Fast Food
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tech-challenge-fiap-5soat_tc-ff-order-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tech-challenge-fiap-5soat_tc-ff-order-api)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=tech-challenge-fiap-5soat_tc-ff-order-api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=tech-challenge-fiap-5soat_tc-ff-order-api)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=tech-challenge-fiap-5soat_tc-ff-order-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=tech-challenge-fiap-5soat_tc-ff-order-api)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tech-challenge-fiap-5soat_tc-ff-order-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=tech-challenge-fiap-5soat_tc-ff-order-api)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=tech-challenge-fiap-5soat_tc-ff-order-api&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=tech-challenge-fiap-5soat_tc-ff-order-api)
+
 To solve a problem of a neighborhood fastfood, a system was created to manage the fastfood, where it is possible to register users, products, create orders and make payments, in addition to the system being resilient to failures and scalable.
 
 
