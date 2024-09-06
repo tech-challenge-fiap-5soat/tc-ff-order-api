@@ -10,17 +10,36 @@ services:
     networks:
       - mongo-compose-network
 
-  fiap-tech-fast-food:
-    image: cosmtrek/air
-    working_dir: /project
+  # fiap-tech-fast-food:
+  #   image: cosmtrek/air
+  #   working_dir: /project
+  #   ports:
+  #     - 8080:8080
+  #   volumes:
+  #     - ./../../:/project
+  #   networks:
+  #     - mongo-compose-network
+  #   depends_on: 
+  #     - mongoservice
+
+  localstack:
+    image: localstack/localstack:latest
+    environment: 
+      - AWS_DEFAULT_REGION=sa-east-1
+      - AWS_SQS_REGION=sa-east-1
+      - EDGE_PORT=4566
+      - SERVICES=sqs 
+      - AWS_DEFAULT_REGION=sa-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
     ports:
-      - 8080:8080
+      - '4566:4566'
     volumes:
-      - ./../../:/project
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./localstack-init.d:/docker-entrypoint-initaws.d"
     networks:
       - mongo-compose-network
-    depends_on: 
-      - mongoservice
+    
 
 networks: 
     mongo-compose-network:

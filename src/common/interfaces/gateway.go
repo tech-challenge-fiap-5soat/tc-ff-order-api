@@ -6,5 +6,6 @@ import (
 )
 
 type PaymentGateway interface {
-	RequestPayment(order entity.Order) (dto.CreateCheckout, error)
+	RequestSyncronousPayment(order entity.Order) (dto.CreateCheckout, error)
+	RequestAssyncronousPayment(order entity.Order) (dto.CreateCheckout, error)
 }

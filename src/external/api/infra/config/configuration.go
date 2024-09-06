@@ -33,11 +33,13 @@ type MongoConfig struct {
 }
 
 type Api struct {
-	Port                 string     `mapstructure:"port"`
-	AuthConfig           AuthConfig `mapstructure:"authconfig"`
-	AuthorizationBaseUrl string     `mapstructure:"authorizationurl"`
-	CheckoutServiceURL   string     `mapstructure:"checkoutserviceurl"`
-	KitchenServiceURL    string     `mapstructure:"kitchenServiceUrl"`
+	Port                  string     `mapstructure:"port"`
+	AuthConfig            AuthConfig `mapstructure:"authconfig"`
+	AuthorizationBaseUrl  string     `mapstructure:"authorizationurl"`
+	CheckoutServiceURL    string     `mapstructure:"checkoutserviceurl"`
+	KitchenServiceURL     string     `mapstructure:"kitchenServiceUrl"`
+	CheckoutQueue         string     `mapstructure:"checkoutQueue"`
+	CheckoutQueueEndpoint string     `mapstructure:"checkoutQueueEndpoint"`
 }
 
 type AuthConfig struct {

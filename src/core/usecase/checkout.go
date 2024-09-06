@@ -39,8 +39,9 @@ func (uc *checkoutUseCase) CreateCheckout(orderId string) (*dto.CreateCheckout, 
 		}, nil
 	}
 
-	requestedPayment, err := uc.paymentGateway.RequestPayment(*order)
+	requestedPayment, err := uc.paymentGateway.RequestAssyncronousPayment(*order)
 	if err != nil {
+		fmt.Println("error SQS: ", err)
 		return nil, fmt.Errorf("error on request payment to orderId %s", order.ID)
 	}
 

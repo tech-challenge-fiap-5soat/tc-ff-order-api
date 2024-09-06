@@ -112,6 +112,11 @@ func registerCheckoutHandler(groupServer *gin.RouterGroup, dbClient mongo.Client
 	paymentGateway := gateway.NewPaymentGateway(gateway.PaymentGatewayConfig{
 		Timeout:            5,
 		CheckoutServiceURL: config.GetApiCfg().CheckoutServiceURL,
+		SQSEndpoint:        config.GetApiCfg().CheckoutQueueEndpoint,
+		SQSQueueURL:        config.GetApiCfg().CheckoutQueue,
+		AWSRegion:          "sa-east-1",
+		AWSAccessKeyID:     "test",
+		AWSSecretAccessKey: "test",
 	})
 	checkoutInteractor := controller.NewCheckoutController(orderUseCase, paymentGateway)
 
