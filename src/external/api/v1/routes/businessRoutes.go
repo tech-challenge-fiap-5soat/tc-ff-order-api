@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/tech-challenge-fiap-5soat/tc-ff-order-api/src/common/constants"
@@ -112,11 +114,11 @@ func registerCheckoutHandler(groupServer *gin.RouterGroup, dbClient mongo.Client
 	paymentGateway := gateway.NewPaymentGateway(gateway.PaymentGatewayConfig{
 		Timeout:            5,
 		CheckoutServiceURL: config.GetApiCfg().CheckoutServiceURL,
-		SQSEndpoint:        config.GetApiCfg().CheckoutQueueEndpoint,
-		SQSQueueURL:        config.GetApiCfg().CheckoutQueue,
-		AWSRegion:          "sa-east-1",
-		AWSAccessKeyID:     "test",
-		AWSSecretAccessKey: "test",
+		SQSEndpoint:        config.GetQueueProcessorsCfg().OrderEventsQueueEndpoint,
+		SQSQueueURL:        config.GetQueueProcessorsCfg().OrderEventsQueue,
+		AWSRegion:          config.GetQueueProcessorsCfg().OrderEventsQueueRegion,
+		AWSAccessKeyID:     os.Getenv("AWS_ACCESS_KEY_ID"),
+		AWSSecretAccessKey: os.Getenv("AWS_SECRET_ACCESS_KEY"),
 	})
 	checkoutInteractor := controller.NewCheckoutController(orderUseCase, paymentGateway)
 

@@ -13,5 +13,10 @@ api:
   authorizationUrl: "https://apigateway.com/default/food-fiap-auth"
   checkoutServiceURL: "https://tc-ff-payments-api.free.beeceptor.com"
   kitchenServiceUrl: "http://localhost:8077/api/v1"
-  CheckoutQueue: "http://localhost:4566/000000000000/qtest"
-  CheckoutQueueEndpoint: ""  # localstack endpoint
+QueueProcessors:
+  CheckoutEventsQueue: "PaymentEvents"
+  CheckoutEventsQueueEndpoint: "http://localhost:4566" 
+  CheckoutEventsQueueRegion: "sa-east-1"
+  OrderEventsQueue: "OrderEvents"
+  OrderEventsQueueEndpoint: "http://localhost:4566" 
+  OrderEventsQueueRegion: "sa-east-1"

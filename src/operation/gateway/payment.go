@@ -90,7 +90,7 @@ func (pg *paymentGateway) RequestSyncronousPayment(order entity.Order) (dto.Crea
 		return dto.CreateCheckout{}, fmt.Errorf("error occurred while encoding order data: %s", err.Error())
 	}
 
-	url := fmt.Sprintf("%s/payment", pg.checkoutServiceURL)
+	url := fmt.Sprintf("%s/payments", pg.checkoutServiceURL)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return dto.CreateCheckout{}, fmt.Errorf("error occurred while creating request: %s", err.Error())
@@ -115,7 +115,7 @@ func (pg *paymentGateway) RequestAssyncronousPayment(order entity.Order) (dto.Cr
 
 	event := entity.OrderEvent{
 		Id:          uuid.New().String(),
-		EventType:   "CreateCheckout",
+		EventType:   "CreatedCheckout",
 		OrderStatus: string(order.OrderStatus),
 		Order:       &order,
 	}

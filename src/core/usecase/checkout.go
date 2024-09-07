@@ -45,10 +45,10 @@ func (uc *checkoutUseCase) CreateCheckout(orderId string) (*dto.CreateCheckout, 
 		return nil, fmt.Errorf("error on request payment to orderId %s", order.ID)
 	}
 
-	err = uc.orderUseCase.UpdateOrderStatus(orderId, nextStatus)
-	if err != nil {
-		return nil, fmt.Errorf("error updating order status %s to %s", order.OrderStatus.String(), nextStatus.String())
-	}
+	// err = uc.orderUseCase.UpdateOrderStatus(orderId, nextStatus)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("error updating order status %s to %s", order.OrderStatus.String(), nextStatus.String())
+	// }
 
 	return &dto.CreateCheckout{
 		CheckoutURL: requestedPayment.CheckoutURL,

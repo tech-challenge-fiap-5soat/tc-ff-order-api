@@ -18,10 +18,3 @@ type OrderItem struct {
 	Product  Product `json:"product"`
 	Quantity int     `json:"quantity"`
 }
-
-type OrderEvent struct {
-	Id          string `json:"id"`
-	EventType   string `json:"eventType"`
-	OrderStatus string `json:"orderStatus"`
-	Order       *Order `json:"order"`
-}

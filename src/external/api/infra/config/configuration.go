@@ -20,8 +20,9 @@ var (
 )
 
 type Config struct {
-	MongoCfg MongoConfig `mapstructure:"mongodb"`
-	ApiCfg   Api         `mapstructure:"api"`
+	MongoCfg           MongoConfig     `mapstructure:"mongodb"`
+	ApiCfg             Api             `mapstructure:"api"`
+	QueueProcessorsCfg QueueProcessors `mapstructure:"QueueProcessors"`
 }
 
 type MongoConfig struct {
@@ -33,13 +34,20 @@ type MongoConfig struct {
 }
 
 type Api struct {
-	Port                  string     `mapstructure:"port"`
-	AuthConfig            AuthConfig `mapstructure:"authconfig"`
-	AuthorizationBaseUrl  string     `mapstructure:"authorizationurl"`
-	CheckoutServiceURL    string     `mapstructure:"checkoutserviceurl"`
-	KitchenServiceURL     string     `mapstructure:"kitchenServiceUrl"`
-	CheckoutQueue         string     `mapstructure:"checkoutQueue"`
-	CheckoutQueueEndpoint string     `mapstructure:"checkoutQueueEndpoint"`
+	Port                 string     `mapstructure:"port"`
+	AuthConfig           AuthConfig `mapstructure:"authconfig"`
+	AuthorizationBaseUrl string     `mapstructure:"authorizationurl"`
+	CheckoutServiceURL   string     `mapstructure:"checkoutserviceurl"`
+	KitchenServiceURL    string     `mapstructure:"kitchenServiceUrl"`
+}
+
+type QueueProcessors struct {
+	CheckoutEventsQueue         string `mapstructure:"checkoutEventsQueue"`
+	CheckoutEventsQueueEndpoint string `mapstructure:"checkoutEventsQueueEndpoint"`
+	CheckoutEventsQueueRegion   string `mapstructure:"checkoutEventsQueueRegion"`
+	OrderEventsQueue            string `mapstructure:"orderEventsQueue"`
+	OrderEventsQueueEndpoint    string `mapstructure:"orderEventsQueueEndpoint"`
+	OrderEventsQueueRegion      string `mapstructure:"orderEventsQueueRegion"`
 }
 
 type AuthConfig struct {
@@ -58,6 +66,10 @@ func GetMongoCfg() MongoConfig {
 
 func GetApiCfg() Api {
 	return config.ApiCfg
+}
+
+func GetQueueProcessorsCfg() QueueProcessors {
+	return config.QueueProcessorsCfg
 }
 
 func setupConfig() *Config {
