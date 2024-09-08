@@ -74,6 +74,11 @@ func registerOrderHandler(groupServer *gin.RouterGroup, dbClient mongo.Client) {
 	kitchenService := gateway.NewKitchenService(gateway.KitchenServiceConfig{
 		Timeout:               5,
 		KitchenServiceBaseUrl: config.GetApiCfg().KitchenServiceURL,
+		SQSEndpoint:           config.GetQueueProcessorsCfg().OrderPreparationEventsQueueEndpoint,
+		SQSQueueURL:           config.GetQueueProcessorsCfg().OrderPreparationEventsQueue,
+		AWSRegion:             config.GetQueueProcessorsCfg().OrderPreparationEventsQueueRegion,
+		AWSAccessKeyID:        os.Getenv("AWS_ACCESS_KEY_ID"),
+		AWSSecretAccessKey:    os.Getenv("AWS_SECRET_ACCESS_KEY"),
 	})
 	orderInteractor := controller.NewOrderController(orderDbAdapter, productUseCase, customerUseCase, kitchenService)
 
@@ -103,9 +108,15 @@ func registerCheckoutHandler(groupServer *gin.RouterGroup, dbClient mongo.Client
 		config.GetMongoCfg().Database,
 		constants.OrderCollection,
 	)
+
 	kitchenService := gateway.NewKitchenService(gateway.KitchenServiceConfig{
 		Timeout:               5,
 		KitchenServiceBaseUrl: config.GetApiCfg().KitchenServiceURL,
+		SQSEndpoint:           config.GetQueueProcessorsCfg().OrderPreparationEventsQueueEndpoint,
+		SQSQueueURL:           config.GetQueueProcessorsCfg().OrderPreparationEventsQueue,
+		AWSRegion:             config.GetQueueProcessorsCfg().OrderPreparationEventsQueueRegion,
+		AWSAccessKeyID:        os.Getenv("AWS_ACCESS_KEY_ID"),
+		AWSSecretAccessKey:    os.Getenv("AWS_SECRET_ACCESS_KEY"),
 	})
 
 	orderGateway := gateway.NewOrderGateway(orderDbAdapter, kitchenService)

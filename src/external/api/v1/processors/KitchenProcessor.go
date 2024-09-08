@@ -10,27 +10,27 @@ import (
 	valueobject "github.com/tech-challenge-fiap-5soat/tc-ff-order-api/src/core/valueObject"
 )
 
-type PaymentProcessorConfig struct {
+type KitchenProcessorConfig struct {
 	Endpoint        string
 	QueueName       string
 	Region          string
 	WaitTimeSeconds int
 }
 
-type PaymentHandler struct {
+type KitchenHandler struct {
 	OrderUseCase interfaces.OrderUseCase
 }
 
-func PaymentProcessor(config PaymentProcessorConfig, orderUseCase interfaces.OrderUseCase) {
+func KitchenProcessor(config KitchenProcessorConfig, orderUseCase interfaces.OrderUseCase) {
 
-	handler := PaymentHandler{
+	handler := KitchenHandler{
 		OrderUseCase: orderUseCase,
 	}
 
 	clientOptions := consumer.SQSClientOptions{
 		Region:          config.Region,
 		QueueName:       config.QueueName,
-		Handle:          handler.paymentEventHandler,
+		Handle:          handler.kitchenEventHandler,
 		WaitTimeSeconds: 10,
 	}
 	if config.Endpoint != "" {
@@ -39,14 +39,23 @@ func PaymentProcessor(config PaymentProcessorConfig, orderUseCase interfaces.Ord
 	go consumer.New(nil, clientOptions).Start()
 }
 
-func (pg PaymentHandler) paymentEventHandler(message *message.Message) bool {
-	paymentEvent := entity.PaymentEvent{}
+func (pg KitchenHandler) kitchenEventHandler(message *message.Message) bool {
+	orderEvent := entity.OrderEvent{}
 
-	err := message.Unmarshal(&paymentEvent)
+	err := message.Unmarshal(&orderEvent)
 	if err != nil {
 		fmt.Println(err)
 		return false
 	}
-	pg.OrderUseCase.UpdateOrderStatus(paymentEvent.Order.Id, valueobject.OrderStatus(paymentEvent.EventType))
+	if orderEvent.EventType == "READY_TO_TAKEOUT" {
+		pg.OrderUseCase.UpdateOrderStatus(orderEvent.Order.ID, valueobject.OrderStatus("READY"))
+		return true
+	}
+
+	if orderEvent.EventType == "COMPLETED" {
+		pg.OrderUseCase.UpdateOrderStatus(orderEvent.Order.ID, valueobject.OrderStatus(orderEvent.EventType))
+		return true
+	}
+
 	return true
 }

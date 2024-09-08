@@ -42,12 +42,18 @@ type Api struct {
 }
 
 type QueueProcessors struct {
-	CheckoutEventsQueue         string `mapstructure:"checkoutEventsQueue"`
-	CheckoutEventsQueueEndpoint string `mapstructure:"checkoutEventsQueueEndpoint"`
-	CheckoutEventsQueueRegion   string `mapstructure:"checkoutEventsQueueRegion"`
-	OrderEventsQueue            string `mapstructure:"orderEventsQueue"`
-	OrderEventsQueueEndpoint    string `mapstructure:"orderEventsQueueEndpoint"`
-	OrderEventsQueueRegion      string `mapstructure:"orderEventsQueueRegion"`
+	CheckoutEventsQueue                 string `mapstructure:"checkoutEventsQueue"`
+	CheckoutEventsQueueEndpoint         string `mapstructure:"checkoutEventsQueueEndpoint"`
+	CheckoutEventsQueueRegion           string `mapstructure:"checkoutEventsQueueRegion"`
+	OrderEventsQueue                    string `mapstructure:"orderEventsQueue"`
+	OrderEventsQueueEndpoint            string `mapstructure:"orderEventsQueueEndpoint"`
+	OrderEventsQueueRegion              string `mapstructure:"orderEventsQueueRegion"`
+	KitchenEventsQueue                  string `mapstructure:"kitchenEventsQueue"`
+	KitchenEventsQueueEndpoint          string `mapstructure:"kitchenEventsQueueEndpoint"`
+	KitchenEventsQueueRegion            string `mapstructure:"kitchenEventsQueueRegion"`
+	OrderPreparationEventsQueue         string `mapstructure:"orderPreparationEventsQueue"`
+	OrderPreparationEventsQueueEndpoint string `mapstructure:"orderPreparationEventsQueueEndpoint"`
+	OrderPreparationEventsQueueRegion   string `mapstructure:"orderPreparationEventsQueueRegion"`
 }
 
 type AuthConfig struct {

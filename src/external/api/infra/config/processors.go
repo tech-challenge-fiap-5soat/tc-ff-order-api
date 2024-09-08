@@ -1,6 +1,8 @@
 package config
 
 import (
+	"os"
+
 	"github.com/tech-challenge-fiap-5soat/tc-ff-order-api/src/common/constants"
 	"github.com/tech-challenge-fiap-5soat/tc-ff-order-api/src/core/entity"
 	"github.com/tech-challenge-fiap-5soat/tc-ff-order-api/src/core/usecase"
@@ -11,13 +13,6 @@ import (
 )
 
 func InitProcessors(dbClient mongo.Client) {
-
-	processorConfig := processors.PaymentProcessorConfig{
-		Endpoint:        GetQueueProcessorsCfg().CheckoutEventsQueueEndpoint,
-		Region:          GetQueueProcessorsCfg().CheckoutEventsQueueRegion,
-		QueueName:       GetQueueProcessorsCfg().CheckoutEventsQueue,
-		WaitTimeSeconds: 30,
-	}
 
 	productDbAdapter := mongodb.NewMongoAdapter[entity.Product](
 		dbClient,
@@ -43,10 +38,30 @@ func InitProcessors(dbClient mongo.Client) {
 	kitchenService := gateway.NewKitchenService(gateway.KitchenServiceConfig{
 		Timeout:               5,
 		KitchenServiceBaseUrl: GetApiCfg().KitchenServiceURL,
+		SQSEndpoint:           GetQueueProcessorsCfg().OrderPreparationEventsQueueEndpoint,
+		SQSQueueURL:           GetQueueProcessorsCfg().OrderPreparationEventsQueue,
+		AWSRegion:             GetQueueProcessorsCfg().OrderPreparationEventsQueueRegion,
+		AWSAccessKeyID:        os.Getenv("AWS_ACCESS_KEY_ID"),
+		AWSSecretAccessKey:    os.Getenv("AWS_SECRET_ACCESS_KEY"),
 	})
 
 	orderGateway := gateway.NewOrderGateway(orderDbAdapter, kitchenService)
 	orderUseCase := usecase.NewOrderUseCase(orderGateway, productUseCase, customerUseCase)
 
-	processors.PaymentProcessor(processorConfig, orderUseCase)
+	paymentProcessorConfig := processors.PaymentProcessorConfig{
+		Endpoint:        GetQueueProcessorsCfg().CheckoutEventsQueueEndpoint,
+		Region:          GetQueueProcessorsCfg().CheckoutEventsQueueRegion,
+		QueueName:       GetQueueProcessorsCfg().CheckoutEventsQueue,
+		WaitTimeSeconds: 30,
+	}
+
+	kitchenProcessorConfig := processors.KitchenProcessorConfig{
+		Endpoint:        GetQueueProcessorsCfg().KitchenEventsQueueEndpoint,
+		Region:          GetQueueProcessorsCfg().KitchenEventsQueueRegion,
+		QueueName:       GetQueueProcessorsCfg().KitchenEventsQueue,
+		WaitTimeSeconds: 30,
+	}
+
+	processors.PaymentProcessor(paymentProcessorConfig, orderUseCase)
+	processors.KitchenProcessor(kitchenProcessorConfig, orderUseCase)
 }

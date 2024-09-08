@@ -126,8 +126,9 @@ func (pg *paymentGateway) RequestAssyncronousPayment(order entity.Order) (dto.Cr
 	}
 
 	_, err = pg.sqsClient.SendMessage(context.TODO(), &sqs.SendMessageInput{
-		QueueUrl:    &pg.queueURL,
-		MessageBody: aws.String(string(jsonData)),
+		QueueUrl:     &pg.queueURL,
+		MessageBody:  aws.String(string(jsonData)),
+		DelaySeconds: 10,
 	})
 	if err != nil {
 		return dto.CreateCheckout{}, fmt.Errorf("error occurred while sending message to SQS: %s", err.Error())
