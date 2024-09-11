@@ -21,6 +21,52 @@ func (_m *MockKitchenService) EXPECT() *MockKitchenService_Expecter {
 	return &MockKitchenService_Expecter{mock: &_m.Mock}
 }
 
+// AssyncRequestOrderPreparation provides a mock function with given fields: order
+func (_m *MockKitchenService) AssyncRequestOrderPreparation(order entity.Order) error {
+	ret := _m.Called(order)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AssyncRequestOrderPreparation")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(entity.Order) error); ok {
+		r0 = rf(order)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockKitchenService_AssyncRequestOrderPreparation_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AssyncRequestOrderPreparation'
+type MockKitchenService_AssyncRequestOrderPreparation_Call struct {
+	*mock.Call
+}
+
+// AssyncRequestOrderPreparation is a helper method to define mock.On call
+//   - order entity.Order
+func (_e *MockKitchenService_Expecter) AssyncRequestOrderPreparation(order interface{}) *MockKitchenService_AssyncRequestOrderPreparation_Call {
+	return &MockKitchenService_AssyncRequestOrderPreparation_Call{Call: _e.mock.On("AssyncRequestOrderPreparation", order)}
+}
+
+func (_c *MockKitchenService_AssyncRequestOrderPreparation_Call) Run(run func(order entity.Order)) *MockKitchenService_AssyncRequestOrderPreparation_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(entity.Order))
+	})
+	return _c
+}
+
+func (_c *MockKitchenService_AssyncRequestOrderPreparation_Call) Return(_a0 error) *MockKitchenService_AssyncRequestOrderPreparation_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockKitchenService_AssyncRequestOrderPreparation_Call) RunAndReturn(run func(entity.Order) error) *MockKitchenService_AssyncRequestOrderPreparation_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RequetOrderPreparation provides a mock function with given fields: order
 func (_m *MockKitchenService) RequetOrderPreparation(order entity.Order) error {
 	ret := _m.Called(order)

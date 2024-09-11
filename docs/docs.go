@@ -41,7 +41,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.CreateCheckout"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.CreateCheckout"
                         }
                     }
                 }
@@ -74,7 +74,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.UpdateCheckoutDTO"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.UpdateCheckoutDTO"
                         }
                     }
                 ],
@@ -116,7 +116,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Customer"
+                                "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Customer"
                             }
                         }
                     }
@@ -141,7 +141,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.CustomerCreateDTO"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.CustomerCreateDTO"
                         }
                     }
                 ],
@@ -149,7 +149,42 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Customer"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Customer"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/customer/authorization": {
+            "get": {
+                "description": "Get authorization tokenCPF",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Customer Routes"
+                ],
+                "summary": "Get authorization token by CPF",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "19119119100",
+                        "name": "cpf",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_external_auth.AuthorizationToken"
+                            }
                         }
                     }
                 }
@@ -174,7 +209,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Order"
+                                "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Order"
                             }
                         }
                     }
@@ -199,7 +234,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderCreateDTO"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderCreateDTO"
                         }
                     }
                 ],
@@ -241,7 +276,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Order"
+                                "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Order"
                             }
                         }
                     }
@@ -274,7 +309,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Order"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Order"
                         }
                     }
                 }
@@ -298,7 +333,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderUpdateDTO"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderUpdateDTO"
                         }
                     }
                 ],
@@ -364,7 +399,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product"
+                                "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product"
                             }
                         }
                     }
@@ -389,7 +424,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product"
                         }
                     }
                 ],
@@ -428,7 +463,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product"
+                                "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product"
                             }
                         }
                     }
@@ -462,7 +497,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product"
+                            "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product"
                         }
                     }
                 ],
@@ -548,7 +583,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_hcsouza_fiap-tech-fast-food_src_common_dto.CreateCheckout": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.CreateCheckout": {
             "type": "object",
             "properties": {
                 "checkout_url": {
@@ -559,7 +594,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_common_dto.CustomerCreateDTO": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.CustomerCreateDTO": {
             "type": "object",
             "required": [
                 "cpf",
@@ -577,7 +612,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderCreateDTO": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderCreateDTO": {
             "type": "object",
             "properties": {
                 "customer": {
@@ -586,12 +621,12 @@ const docTemplate = `{
                 "orderItems": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderItemDTO"
+                        "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderItemDTO"
                     }
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderItemDTO": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderItemDTO": {
             "type": "object",
             "properties": {
                 "product": {
@@ -602,7 +637,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderUpdateDTO": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderUpdateDTO": {
             "type": "object",
             "properties": {
                 "customer": {
@@ -611,12 +646,12 @@ const docTemplate = `{
                 "orderItems": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderItemDTO"
+                        "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderItemDTO"
                     }
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_common_dto.UpdateCheckoutDTO": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.UpdateCheckoutDTO": {
             "type": "object",
             "properties": {
                 "status": {
@@ -624,7 +659,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Customer": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Customer": {
             "type": "object",
             "properties": {
                 "cpf": {
@@ -633,12 +668,15 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
+                "enabled": {
+                    "type": "boolean"
+                },
                 "name": {
                     "type": "string"
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Order": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Order": {
             "type": "object",
             "properties": {
                 "_id": {
@@ -648,37 +686,37 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "createdAt": {
-                    "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.CustomTime"
+                    "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.CustomTime"
                 },
                 "customer": {
-                    "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Customer"
+                    "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Customer"
                 },
                 "orderItems": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.OrderItem"
+                        "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.OrderItem"
                     }
                 },
                 "orderStatus": {
-                    "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.OrderStatus"
+                    "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.OrderStatus"
                 },
                 "updatedAt": {
-                    "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.CustomTime"
+                    "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.CustomTime"
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_core_entity.OrderItem": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.OrderItem": {
             "type": "object",
             "properties": {
                 "product": {
-                    "$ref": "#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product"
+                    "$ref": "#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product"
                 },
                 "quantity": {
                     "type": "integer"
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product": {
             "type": "object",
             "properties": {
                 "_id": {
@@ -695,7 +733,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.CustomTime": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.CustomTime": {
             "type": "object",
             "properties": {
                 "time.Time": {
@@ -703,7 +741,7 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.OrderStatus": {
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.OrderStatus": {
             "type": "string",
             "enum": [
                 "STARTED",
@@ -712,7 +750,8 @@ const docTemplate = `{
                 "PAYMENT_REFUSED",
                 "PREPARING",
                 "READY",
-                "COMPLETED"
+                "COMPLETED",
+                "CANCELLED"
             ],
             "x-enum-varnames": [
                 "ORDER_STARTED",
@@ -721,8 +760,26 @@ const docTemplate = `{
                 "ORDER_PAYMENT_REFUSED",
                 "ORDER_BEING_PREPARED",
                 "ORDER_READY",
-                "ORDER_COMPLETED"
+                "ORDER_COMPLETED",
+                "ORDER_CANCELLED"
             ]
+        },
+        "github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_external_auth.AuthorizationToken": {
+            "type": "object",
+            "properties": {
+                "AccessToken": {
+                    "type": "string"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "statusCode": {
+                    "type": "integer"
+                }
+            }
         }
     }
 }`
@@ -734,7 +791,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Fast Food API",
-	Description:      "Fast Food API for FIAP Tech course",
+	Description:      "Fast Food Order API for FIAP Tech course",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

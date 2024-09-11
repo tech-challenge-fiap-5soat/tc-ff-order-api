@@ -1,13 +1,13 @@
 basePath: /
 definitions:
-  github_com_hcsouza_fiap-tech-fast-food_src_common_dto.CreateCheckout:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.CreateCheckout:
     properties:
       checkout_url:
         type: string
       message:
         type: string
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_common_dto.CustomerCreateDTO:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.CustomerCreateDTO:
     properties:
       cpf:
         type: string
@@ -19,72 +19,74 @@ definitions:
     - cpf
     - email
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderCreateDTO:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderCreateDTO:
     properties:
       customer:
         type: string
       orderItems:
         items:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderItemDTO'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderItemDTO'
         type: array
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderItemDTO:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderItemDTO:
     properties:
       product:
         type: string
       quantity:
         type: integer
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderUpdateDTO:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderUpdateDTO:
     properties:
       customer:
         type: string
       orderItems:
         items:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderItemDTO'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderItemDTO'
         type: array
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_common_dto.UpdateCheckoutDTO:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.UpdateCheckoutDTO:
     properties:
       status:
         type: string
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Customer:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Customer:
     properties:
       cpf:
         type: string
       email:
         type: string
+      enabled:
+        type: boolean
       name:
         type: string
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Order:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Order:
     properties:
       _id:
         type: string
       amount:
         type: number
       createdAt:
-        $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.CustomTime'
+        $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.CustomTime'
       customer:
-        $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Customer'
+        $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Customer'
       orderItems:
         items:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.OrderItem'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.OrderItem'
         type: array
       orderStatus:
-        $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.OrderStatus'
+        $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.OrderStatus'
       updatedAt:
-        $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.CustomTime'
+        $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.CustomTime'
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_core_entity.OrderItem:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.OrderItem:
     properties:
       product:
-        $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product'
+        $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product'
       quantity:
         type: integer
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product:
     properties:
       _id:
         type: string
@@ -95,12 +97,12 @@ definitions:
       price:
         type: number
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.CustomTime:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.CustomTime:
     properties:
       time.Time:
         type: string
     type: object
-  github_com_hcsouza_fiap-tech-fast-food_src_core_valueObject.OrderStatus:
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_valueObject.OrderStatus:
     enum:
     - STARTED
     - PAYMENT_PENDING
@@ -109,6 +111,7 @@ definitions:
     - PREPARING
     - READY
     - COMPLETED
+    - CANCELLED
     type: string
     x-enum-varnames:
     - ORDER_STARTED
@@ -118,10 +121,22 @@ definitions:
     - ORDER_BEING_PREPARED
     - ORDER_READY
     - ORDER_COMPLETED
+    - ORDER_CANCELLED
+  github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_external_auth.AuthorizationToken:
+    properties:
+      AccessToken:
+        type: string
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+      statusCode:
+        type: integer
+    type: object
 host: localhost:8080
 info:
   contact: {}
-  description: Fast Food API for FIAP Tech course
+  description: Fast Food Order API for FIAP Tech course
   title: Fast Food API
   version: 0.1.0
 paths:
@@ -142,7 +157,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.CreateCheckout'
+            $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.CreateCheckout'
       summary: Create checkout from order
       tags:
       - Checkout Routes
@@ -162,7 +177,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.UpdateCheckoutDTO'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.UpdateCheckoutDTO'
       produces:
       - application/json
       responses:
@@ -191,7 +206,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Customer'
+              $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Customer'
             type: array
       summary: Get customer by CPF
       tags:
@@ -206,15 +221,38 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.CustomerCreateDTO'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.CustomerCreateDTO'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Customer'
+            $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Customer'
       summary: Create a new customer
+      tags:
+      - Customer Routes
+  /api/v1/customer/authorization:
+    get:
+      consumes:
+      - application/json
+      description: Get authorization tokenCPF
+      parameters:
+      - description: "19119119100"
+        in: query
+        name: cpf
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_external_auth.AuthorizationToken'
+            type: array
+      summary: Get authorization token by CPF
       tags:
       - Customer Routes
   /api/v1/order:
@@ -229,7 +267,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Order'
+              $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Order'
             type: array
       summary: Get all orders
       tags:
@@ -244,7 +282,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderCreateDTO'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderCreateDTO'
       produces:
       - application/json
       responses:
@@ -272,7 +310,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Order'
+            $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Order'
       summary: Get order by ID
       tags:
       - Order Routes
@@ -286,7 +324,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_common_dto.OrderUpdateDTO'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_common_dto.OrderUpdateDTO'
       produces:
       - application/json
       responses:
@@ -338,7 +376,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Order'
+              $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Order'
             type: array
       summary: Get all orders by status
       tags:
@@ -355,7 +393,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product'
+              $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product'
             type: array
       summary: Get all products
       tags:
@@ -370,7 +408,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product'
       produces:
       - application/json
       responses:
@@ -397,7 +435,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product'
+              $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product'
             type: array
       summary: Get all products by category
       tags:
@@ -436,7 +474,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/github_com_hcsouza_fiap-tech-fast-food_src_core_entity.Product'
+          $ref: '#/definitions/github_com_tech-challenge-fiap-5soat_tc-ff-order-api_src_core_entity.Product'
       produces:
       - application/json
       responses:
