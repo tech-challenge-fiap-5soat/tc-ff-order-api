@@ -83,6 +83,65 @@ func (_c *MockCustomerUseCase_CreateCustomer_Call) RunAndReturn(run func(context
 	return _c
 }
 
+// DisableCustomer provides a mock function with given fields: ctx, id
+func (_m *MockCustomerUseCase) DisableCustomer(ctx context.Context, id string) (*entity.Customer, error) {
+	ret := _m.Called(ctx, id)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DisableCustomer")
+	}
+
+	var r0 *entity.Customer
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (*entity.Customer, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Customer); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Customer)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockCustomerUseCase_DisableCustomer_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DisableCustomer'
+type MockCustomerUseCase_DisableCustomer_Call struct {
+	*mock.Call
+}
+
+// DisableCustomer is a helper method to define mock.On call
+//   - ctx context.Context
+//   - id string
+func (_e *MockCustomerUseCase_Expecter) DisableCustomer(ctx interface{}, id interface{}) *MockCustomerUseCase_DisableCustomer_Call {
+	return &MockCustomerUseCase_DisableCustomer_Call{Call: _e.mock.On("DisableCustomer", ctx, id)}
+}
+
+func (_c *MockCustomerUseCase_DisableCustomer_Call) Run(run func(ctx context.Context, id string)) *MockCustomerUseCase_DisableCustomer_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(string))
+	})
+	return _c
+}
+
+func (_c *MockCustomerUseCase_DisableCustomer_Call) Return(_a0 *entity.Customer, _a1 error) *MockCustomerUseCase_DisableCustomer_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockCustomerUseCase_DisableCustomer_Call) RunAndReturn(run func(context.Context, string) (*entity.Customer, error)) *MockCustomerUseCase_DisableCustomer_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetCustomer provides a mock function with given fields: ctx, params
 func (_m *MockCustomerUseCase) GetCustomer(ctx context.Context, params map[string]string) (*entity.Customer, error) {
 	ret := _m.Called(ctx, params)

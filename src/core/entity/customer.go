@@ -5,9 +5,10 @@ import (
 )
 
 type Customer struct {
-	Name  string            `json:"name"`
-	Email valueobject.Email `json:"email"`
-	CPF   valueobject.CPF   `json:"cpf"`
+	Name    string            `json:"name"`
+	Email   valueobject.Email `json:"email"`
+	CPF     valueobject.CPF   `json:"cpf"`
+	Enabled bool
 }
 
 func (c *Customer) IsValid() bool {

@@ -29,3 +29,7 @@ func (cc *CustomerController) CreateCustomer(ctx context.Context,
 func (cc *CustomerController) GetCustomer(ctx context.Context, params map[string]string) (*entity.Customer, error) {
 	return cc.useCase.GetCustomer(ctx, params)
 }
+
+func (cc *CustomerController) DisableCustomer(ctx context.Context, id string) (*entity.Customer, error) {
+	return cc.useCase.DisableCustomer(ctx, id)
+}

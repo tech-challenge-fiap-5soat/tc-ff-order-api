@@ -11,6 +11,7 @@ import (
 type CustomerUseCase interface {
 	CreateCustomer(context.Context, dto.CustomerCreateDTO) (*entity.Customer, error)
 	GetCustomer(ctx context.Context, params map[string]string) (*entity.Customer, error)
+	DisableCustomer(ctx context.Context, id string) (*entity.Customer, error)
 }
 
 type CustomerGateway interface {
@@ -21,6 +22,6 @@ type CustomerGateway interface {
 type CustomerController interface {
 	CreateCustomer(ctx context.Context,
 		customerRequest dto.CustomerCreateDTO) (*entity.Customer, error)
-
 	GetCustomer(ctx context.Context, params map[string]string) (*entity.Customer, error)
+	DisableCustomer(ctx context.Context, id string) (*entity.Customer, error)
 }
