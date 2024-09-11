@@ -16,6 +16,7 @@ func Run(gServer *gin.Engine, dbClient mongo.Client) {
 		middlewares.CORSMiddleware(),
 		middlewares.CheckAccessToken("/api/v1/customer/authorization", "/health/liveness", "/health/readiness", "/docs/*"),
 		gin.Recovery(),
+		middlewares.SecurityHeadersMiddleware(),
 	)
 
 	RegisterHealthRoutes(gServer)
