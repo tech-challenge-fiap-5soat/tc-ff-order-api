@@ -22,12 +22,12 @@ func (_m *MockPaymentGateway) EXPECT() *MockPaymentGateway_Expecter {
 	return &MockPaymentGateway_Expecter{mock: &_m.Mock}
 }
 
-// RequestPayment provides a mock function with given fields: order
-func (_m *MockPaymentGateway) RequestPayment(order entity.Order) (dto.CreateCheckout, error) {
+// RequestAssyncronousPayment provides a mock function with given fields: order
+func (_m *MockPaymentGateway) RequestAssyncronousPayment(order entity.Order) (dto.CreateCheckout, error) {
 	ret := _m.Called(order)
 
 	if len(ret) == 0 {
-		panic("no return value specified for RequestPayment")
+		panic("no return value specified for RequestAssyncronousPayment")
 	}
 
 	var r0 dto.CreateCheckout
@@ -50,30 +50,86 @@ func (_m *MockPaymentGateway) RequestPayment(order entity.Order) (dto.CreateChec
 	return r0, r1
 }
 
-// MockPaymentGateway_RequestPayment_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RequestPayment'
-type MockPaymentGateway_RequestPayment_Call struct {
+// MockPaymentGateway_RequestAssyncronousPayment_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RequestAssyncronousPayment'
+type MockPaymentGateway_RequestAssyncronousPayment_Call struct {
 	*mock.Call
 }
 
-// RequestPayment is a helper method to define mock.On call
+// RequestAssyncronousPayment is a helper method to define mock.On call
 //   - order entity.Order
-func (_e *MockPaymentGateway_Expecter) RequestPayment(order interface{}) *MockPaymentGateway_RequestPayment_Call {
-	return &MockPaymentGateway_RequestPayment_Call{Call: _e.mock.On("RequestPayment", order)}
+func (_e *MockPaymentGateway_Expecter) RequestAssyncronousPayment(order interface{}) *MockPaymentGateway_RequestAssyncronousPayment_Call {
+	return &MockPaymentGateway_RequestAssyncronousPayment_Call{Call: _e.mock.On("RequestAssyncronousPayment", order)}
 }
 
-func (_c *MockPaymentGateway_RequestPayment_Call) Run(run func(order entity.Order)) *MockPaymentGateway_RequestPayment_Call {
+func (_c *MockPaymentGateway_RequestAssyncronousPayment_Call) Run(run func(order entity.Order)) *MockPaymentGateway_RequestAssyncronousPayment_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(entity.Order))
 	})
 	return _c
 }
 
-func (_c *MockPaymentGateway_RequestPayment_Call) Return(_a0 dto.CreateCheckout, _a1 error) *MockPaymentGateway_RequestPayment_Call {
+func (_c *MockPaymentGateway_RequestAssyncronousPayment_Call) Return(_a0 dto.CreateCheckout, _a1 error) *MockPaymentGateway_RequestAssyncronousPayment_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockPaymentGateway_RequestPayment_Call) RunAndReturn(run func(entity.Order) (dto.CreateCheckout, error)) *MockPaymentGateway_RequestPayment_Call {
+func (_c *MockPaymentGateway_RequestAssyncronousPayment_Call) RunAndReturn(run func(entity.Order) (dto.CreateCheckout, error)) *MockPaymentGateway_RequestAssyncronousPayment_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RequestSyncronousPayment provides a mock function with given fields: order
+func (_m *MockPaymentGateway) RequestSyncronousPayment(order entity.Order) (dto.CreateCheckout, error) {
+	ret := _m.Called(order)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RequestSyncronousPayment")
+	}
+
+	var r0 dto.CreateCheckout
+	var r1 error
+	if rf, ok := ret.Get(0).(func(entity.Order) (dto.CreateCheckout, error)); ok {
+		return rf(order)
+	}
+	if rf, ok := ret.Get(0).(func(entity.Order) dto.CreateCheckout); ok {
+		r0 = rf(order)
+	} else {
+		r0 = ret.Get(0).(dto.CreateCheckout)
+	}
+
+	if rf, ok := ret.Get(1).(func(entity.Order) error); ok {
+		r1 = rf(order)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockPaymentGateway_RequestSyncronousPayment_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RequestSyncronousPayment'
+type MockPaymentGateway_RequestSyncronousPayment_Call struct {
+	*mock.Call
+}
+
+// RequestSyncronousPayment is a helper method to define mock.On call
+//   - order entity.Order
+func (_e *MockPaymentGateway_Expecter) RequestSyncronousPayment(order interface{}) *MockPaymentGateway_RequestSyncronousPayment_Call {
+	return &MockPaymentGateway_RequestSyncronousPayment_Call{Call: _e.mock.On("RequestSyncronousPayment", order)}
+}
+
+func (_c *MockPaymentGateway_RequestSyncronousPayment_Call) Run(run func(order entity.Order)) *MockPaymentGateway_RequestSyncronousPayment_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(entity.Order))
+	})
+	return _c
+}
+
+func (_c *MockPaymentGateway_RequestSyncronousPayment_Call) Return(_a0 dto.CreateCheckout, _a1 error) *MockPaymentGateway_RequestSyncronousPayment_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockPaymentGateway_RequestSyncronousPayment_Call) RunAndReturn(run func(entity.Order) (dto.CreateCheckout, error)) *MockPaymentGateway_RequestSyncronousPayment_Call {
 	_c.Call.Return(run)
 	return _c
 }

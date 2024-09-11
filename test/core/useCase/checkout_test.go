@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/tech-challenge-fiap-5soat/tc-ff-order-api/src/core/entity"
@@ -16,6 +17,7 @@ import (
 )
 
 func TestCheckoutUseCase(t *testing.T) {
+	orderId := "order-123"
 	t.Parallel()
 
 	productGatewayMock := mocks.NewMockProductGateway(t)
@@ -27,18 +29,15 @@ func TestCheckoutUseCase(t *testing.T) {
 	paymentGatewayMock := mocks.NewMockPaymentGateway(t)
 
 	t.Run("should create checkout with success", func(t *testing.T) {
-		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_STARTED}
-		updatedOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_PENDING}
 
 		orderGatewayMock := mocks.NewMockOrderGateway(t)
 		orderUseCase := usecase.NewOrderUseCase(orderGatewayMock, productUseCase, customerUseCase)
 
 		orderGatewayMock.On("FindById", orderId).Return(existentOrder, nil)
-		orderGatewayMock.On("Update", updatedOrder).Return(nil)
 
 		spyOrder := entity.Order{
-			ID:          "order-123",
+			ID:          orderId,
 			Customer:    entity.Customer{Name: "", Email: "", CPF: ""},
 			OrderStatus: "STARTED", OrderItems: []entity.OrderItem(nil),
 			CreatedAt: orderStatus.CustomTime{},
@@ -46,7 +45,7 @@ func TestCheckoutUseCase(t *testing.T) {
 			Amount:    0,
 		}
 
-		paymentGatewayMock.On("RequestPayment", spyOrder).Return(
+		paymentGatewayMock.On("RequestAssyncronousPayment", spyOrder).Return(
 			dto.CreateCheckout{CheckoutURL: "https://fake-checkout.com/payment/" + orderId}, nil,
 		)
 
@@ -60,7 +59,6 @@ func TestCheckoutUseCase(t *testing.T) {
 	})
 
 	t.Run("should not create checkout When order status is diff of STARTED", func(t *testing.T) {
-		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_PENDING}
 
 		orderGatewayMock := mocks.NewMockOrderGateway(t)
@@ -77,7 +75,6 @@ func TestCheckoutUseCase(t *testing.T) {
 	})
 
 	t.Run("should not create checkout When some error occurs during update operation", func(t *testing.T) {
-		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_STARTED}
 		updatedOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_PENDING}
 
@@ -87,7 +84,7 @@ func TestCheckoutUseCase(t *testing.T) {
 		orderGatewayMock.On("FindById", orderId).Return(existentOrder, nil)
 		orderGatewayMock.On("Update", updatedOrder).Return(errors.New("error updating order status"))
 		spyOrder := entity.Order{
-			ID:          "order-123",
+			ID:          orderId,
 			Customer:    entity.Customer{Name: "", Email: "", CPF: ""},
 			OrderStatus: "STARTED", OrderItems: []entity.OrderItem(nil),
 			CreatedAt: orderStatus.CustomTime{},
@@ -95,19 +92,19 @@ func TestCheckoutUseCase(t *testing.T) {
 			Amount:    0,
 		}
 
-		paymentGatewayMock.On("RequestPayment", spyOrder).Return(
+		paymentGatewayMock.On("RequestAssyncronousPayment", spyOrder).Return(
 			dto.CreateCheckout{CheckoutURL: "https://fake-checkout.com/payment/" + orderId}, nil,
 		)
 
 		useCase := usecase.NewCheckoutUseCase(orderUseCase, paymentGatewayMock)
 
-		_, err := useCase.CreateCheckout(orderId)
+		err := useCase.UpdateCheckout(orderId, orderStatus.ORDER_PAYMENT_PENDING)
 
 		assert.NotNil(t, err)
+		assert.Equal(t, fmt.Errorf("error updating order status STARTED to PAYMENT_PENDING").Error(), err.Error())
 	})
 
 	t.Run("should update order status to PAYMENT_APPROVED with success", func(t *testing.T) {
-		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_PENDING}
 		updatedOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_APPROVED}
 		prepareOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_BEING_PREPARED}
@@ -128,15 +125,17 @@ func TestCheckoutUseCase(t *testing.T) {
 	})
 
 	t.Run("should update order status to PAYMENT_REFUSED with success", func(t *testing.T) {
-		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_PENDING}
 		updatedOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_REFUSED}
+		canceledOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_CANCELLED}
 
 		orderGatewayMock := mocks.NewMockOrderGateway(t)
 		orderUseCase := usecase.NewOrderUseCase(orderGatewayMock, productUseCase, customerUseCase)
 
 		orderGatewayMock.On("FindById", orderId).Return(existentOrder, nil)
 		orderGatewayMock.On("Update", updatedOrder).Return(nil)
+		orderGatewayMock.On("Update", canceledOrder).Return(nil)
+
 		useCase := usecase.NewCheckoutUseCase(orderUseCase, paymentGatewayMock)
 
 		err := useCase.UpdateCheckout(orderId, orderStatus.ORDER_PAYMENT_REFUSED)
@@ -145,7 +144,6 @@ func TestCheckoutUseCase(t *testing.T) {
 	})
 
 	t.Run("should not update order status When new status is equal to the current", func(t *testing.T) {
-		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_APPROVED}
 
 		orderGatewayMock := mocks.NewMockOrderGateway(t)
@@ -161,7 +159,6 @@ func TestCheckoutUseCase(t *testing.T) {
 	})
 
 	t.Run("should not update order status When new status is not valid next status", func(t *testing.T) {
-		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_APPROVED}
 
 		orderGatewayMock := mocks.NewMockOrderGateway(t)
@@ -177,7 +174,6 @@ func TestCheckoutUseCase(t *testing.T) {
 	})
 
 	t.Run("should not update order status When some error occurrs during update operation", func(t *testing.T) {
-		orderId := "order-123"
 		existentOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_PENDING}
 		updatedOrder := &entity.Order{ID: orderId, OrderStatus: orderStatus.ORDER_PAYMENT_APPROVED}
 

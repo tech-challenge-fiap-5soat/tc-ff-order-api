@@ -94,7 +94,7 @@ func (og *orderGateway) Update(order *entity.Order) error {
 }
 
 func (og *orderGateway) RequetOrderPreparation(order *entity.Order) error {
-	err := og.kitchenService.RequetOrderPreparation(*order)
+	err := og.kitchenService.AssyncRequestOrderPreparation(*order)
 	if err != nil {
 		return err
 	}

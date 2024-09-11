@@ -27,9 +27,10 @@ func (interactor *customerUseCase) CreateCustomer(ctx context.Context,
 	customerRequest dto.CustomerCreateDTO) (*entity.Customer, error) {
 
 	customerToCreate := entity.Customer{
-		Name:  customerRequest.Name,
-		Email: valueobject.Email(customerRequest.Email),
-		CPF:   valueobject.CPF(customerRequest.Cpf),
+		Name:    customerRequest.Name,
+		Email:   valueobject.Email(customerRequest.Email),
+		CPF:     valueobject.CPF(customerRequest.Cpf),
+		Enabled: true,
 	}
 
 	if !customerToCreate.IsValid() {
@@ -46,4 +47,21 @@ func (interactor *customerUseCase) GetCustomer(ctx context.Context, params map[s
 		return &entity.Customer{}, ErrCustomerSearchParams
 	}
 	return interactor.gateway.Find(valueobject.CPF(param))
+}
+
+func (interactor *customerUseCase) DisableCustomer(ctx context.Context, id string) (*entity.Customer, error) {
+	customer, err := interactor.gateway.Find(valueobject.CPF(id))
+	if err != nil {
+		return nil, err
+	}
+
+	customerToDisable := entity.Customer{
+		CPF:     valueobject.CPF(id),
+		Name:    customer.Name,
+		Email:   customer.Email,
+		Enabled: false,
+	}
+
+	err = interactor.gateway.Save(&customerToDisable)
+	return &customerToDisable, err
 }

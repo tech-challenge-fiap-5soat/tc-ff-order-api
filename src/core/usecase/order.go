@@ -223,6 +223,13 @@ func (o *orderUseCase) UpdateOrderStatus(orderId string, status orderStatus.Orde
 		}
 	}
 
+	if order.OrderStatus.IsRefused(status) {
+		err = o.RequestOrderCancellation(order)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -248,4 +255,8 @@ func (o *orderUseCase) RequetOrderPreparation(order *entity.Order) error {
 		return err
 	}
 	return o.updateOrderStatus(*order, orderStatus.ORDER_BEING_PREPARED)
+}
+
+func (o *orderUseCase) RequestOrderCancellation(order *entity.Order) error {
+	return o.updateOrderStatus(*order, orderStatus.ORDER_CANCELLED)
 }

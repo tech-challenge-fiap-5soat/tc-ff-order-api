@@ -14,6 +14,7 @@ type OrderUseCase interface {
 	UpdateOrder(orderId string, order dto.OrderUpdateDTO) error
 	UpdateOrderStatus(orderId string, status valueobject.OrderStatus) error
 	RequetOrderPreparation(order *entity.Order) error
+	RequestOrderCancellation(order *entity.Order) error
 }
 
 type OrderGateway interface {

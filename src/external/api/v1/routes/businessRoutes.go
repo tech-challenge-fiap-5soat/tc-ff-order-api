@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/tech-challenge-fiap-5soat/tc-ff-order-api/src/common/constants"
@@ -72,6 +74,11 @@ func registerOrderHandler(groupServer *gin.RouterGroup, dbClient mongo.Client) {
 	kitchenService := gateway.NewKitchenService(gateway.KitchenServiceConfig{
 		Timeout:               5,
 		KitchenServiceBaseUrl: config.GetApiCfg().KitchenServiceURL,
+		SQSEndpoint:           config.GetQueueProcessorsCfg().OrderPreparationEventsQueueEndpoint,
+		SQSQueueURL:           config.GetQueueProcessorsCfg().OrderPreparationEventsQueue,
+		AWSRegion:             config.GetQueueProcessorsCfg().OrderPreparationEventsQueueRegion,
+		AWSAccessKeyID:        os.Getenv("AWS_ACCESS_KEY_ID"),
+		AWSSecretAccessKey:    os.Getenv("AWS_SECRET_ACCESS_KEY"),
 	})
 	orderInteractor := controller.NewOrderController(orderDbAdapter, productUseCase, customerUseCase, kitchenService)
 
@@ -101,9 +108,15 @@ func registerCheckoutHandler(groupServer *gin.RouterGroup, dbClient mongo.Client
 		config.GetMongoCfg().Database,
 		constants.OrderCollection,
 	)
+
 	kitchenService := gateway.NewKitchenService(gateway.KitchenServiceConfig{
 		Timeout:               5,
 		KitchenServiceBaseUrl: config.GetApiCfg().KitchenServiceURL,
+		SQSEndpoint:           config.GetQueueProcessorsCfg().OrderPreparationEventsQueueEndpoint,
+		SQSQueueURL:           config.GetQueueProcessorsCfg().OrderPreparationEventsQueue,
+		AWSRegion:             config.GetQueueProcessorsCfg().OrderPreparationEventsQueueRegion,
+		AWSAccessKeyID:        os.Getenv("AWS_ACCESS_KEY_ID"),
+		AWSSecretAccessKey:    os.Getenv("AWS_SECRET_ACCESS_KEY"),
 	})
 
 	orderGateway := gateway.NewOrderGateway(orderDbAdapter, kitchenService)
@@ -112,6 +125,11 @@ func registerCheckoutHandler(groupServer *gin.RouterGroup, dbClient mongo.Client
 	paymentGateway := gateway.NewPaymentGateway(gateway.PaymentGatewayConfig{
 		Timeout:            5,
 		CheckoutServiceURL: config.GetApiCfg().CheckoutServiceURL,
+		SQSEndpoint:        config.GetQueueProcessorsCfg().OrderEventsQueueEndpoint,
+		SQSQueueURL:        config.GetQueueProcessorsCfg().OrderEventsQueue,
+		AWSRegion:          config.GetQueueProcessorsCfg().OrderEventsQueueRegion,
+		AWSAccessKeyID:     os.Getenv("AWS_ACCESS_KEY_ID"),
+		AWSSecretAccessKey: os.Getenv("AWS_SECRET_ACCESS_KEY"),
 	})
 	checkoutInteractor := controller.NewCheckoutController(orderUseCase, paymentGateway)
 

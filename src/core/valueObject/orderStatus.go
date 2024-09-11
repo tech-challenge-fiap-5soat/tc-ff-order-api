@@ -16,6 +16,7 @@ const (
 	ORDER_BEING_PREPARED   OrderStatus = "PREPARING"
 	ORDER_READY            OrderStatus = "READY"
 	ORDER_COMPLETED        OrderStatus = "COMPLETED"
+	ORDER_CANCELLED        OrderStatus = "CANCELLED"
 )
 
 func (o OrderStatus) String() string {
@@ -31,6 +32,7 @@ func ParseOrderStatus(s string) (o OrderStatus, err error) {
 		ORDER_BEING_PREPARED:   {},
 		ORDER_READY:            {},
 		ORDER_COMPLETED:        {},
+		ORDER_CANCELLED:        {},
 	}
 
 	orderStatus := OrderStatus(strings.ToUpper(s))
@@ -50,6 +52,8 @@ func (o OrderStatus) AvailableNextStatus(status OrderStatus) []OrderStatus {
 		return []OrderStatus{ORDER_PAYMENT_APPROVED, ORDER_PAYMENT_REFUSED}
 	case ORDER_PAYMENT_APPROVED:
 		return []OrderStatus{ORDER_BEING_PREPARED}
+	case ORDER_PAYMENT_REFUSED:
+		return []OrderStatus{ORDER_CANCELLED}
 	case ORDER_BEING_PREPARED:
 		return []OrderStatus{ORDER_READY}
 	case ORDER_READY:
@@ -109,4 +113,8 @@ func (o OrderStatus) OrderCanBeUpdated() bool {
 
 func (o OrderStatus) IsPaid(status OrderStatus) bool {
 	return status == ORDER_PAYMENT_APPROVED
+}
+
+func (o OrderStatus) IsRefused(status OrderStatus) bool {
+	return status == ORDER_PAYMENT_REFUSED
 }

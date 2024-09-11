@@ -40,6 +40,7 @@ func NewCustomerHandler(gRouter *gin.RouterGroup, interactor interfaces.Customer
 	gRouter.GET("/customer", handler.GetCustomerHandler)
 	gRouter.POST("/customer", handler.CreateCustomerHandler)
 	gRouter.GET("customer/authorization", handler.GetAuthorizationTokenHandler)
+	gRouter.PUT("/customer/disable/:id", handler.DisableCustomerHandler)
 
 }
 
@@ -130,6 +131,16 @@ func (handler *customerHandler) GetAuthorizationTokenHandler(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, authToken)
+}
+
+func (handler *customerHandler) DisableCustomerHandler(ctx *gin.Context) {
+	id := ctx.Param("id")
+	customer, err := handler.interactor.DisableCustomer(ctx.Request.Context(), id)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, customer)
 }
 
 func CpfValidator(fl validator.FieldLevel) bool {

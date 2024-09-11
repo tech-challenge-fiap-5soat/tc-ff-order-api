@@ -13,6 +13,11 @@ import (
 	"github.com/tech-challenge-fiap-5soat/tc-ff-order-api/test/mocks"
 )
 
+const (
+	testCustomerName  = "John Doe"
+	testCustomerEmail = "john@email.com"
+)
+
 var customerGatewayMock *mocks.MockCustomerGateway
 
 func TestCustomerUseCase(t *testing.T) {
@@ -22,9 +27,10 @@ func TestCustomerUseCase(t *testing.T) {
 		cpf := CPF("12345678900")
 
 		expected := entity.Customer{
-			Name:  "John Doe",
-			Email: "john@email.com",
-			CPF:   cpf,
+			Name:    testCustomerName,
+			Email:   testCustomerEmail,
+			CPF:     cpf,
+			Enabled: true,
 		}
 
 		customerGatewayMock = mocks.NewMockCustomerGateway(t)
@@ -58,7 +64,7 @@ func TestCustomerUseCase(t *testing.T) {
 
 	t.Run("Should return error when a customer has invalid attributes", func(t *testing.T) {
 		createRequest := dto.CustomerCreateDTO{
-			Name:  "John Doe",
+			Name:  testCustomerName,
 			Email: "email.com",
 			Cpf:   "111",
 		}
@@ -75,15 +81,16 @@ func TestCustomerUseCase(t *testing.T) {
 
 	t.Run("Should create customer successfully when has valid attributes", func(t *testing.T) {
 		createRequest := dto.CustomerCreateDTO{
-			Name:  "John Doe",
-			Email: "john@email.com",
+			Name:  testCustomerName,
+			Email: testCustomerEmail,
 			Cpf:   "35679254077",
 		}
 
 		customerArg := entity.Customer{
-			Name:  "John Doe",
-			Email: "john@email.com",
-			CPF:   CPF("35679254077"),
+			Name:    testCustomerName,
+			Email:   testCustomerEmail,
+			CPF:     CPF("35679254077"),
+			Enabled: true,
 		}
 
 		customerGatewayMock = mocks.NewMockCustomerGateway(t)
@@ -94,9 +101,34 @@ func TestCustomerUseCase(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.Equal(t, result, &entity.Customer{
-			Name:  "John Doe",
-			Email: "john@email.com",
-			CPF:   CPF("35679254077"),
+			Name:    testCustomerName,
+			Email:   testCustomerEmail,
+			CPF:     CPF("35679254077"),
+			Enabled: true,
+		})
+	})
+
+	t.Run("Should disable a customer successfully when has valid attributes", func(t *testing.T) {
+		customerArg := entity.Customer{
+			Name:    testCustomerName,
+			Email:   testCustomerEmail,
+			CPF:     CPF("35679254077"),
+			Enabled: false,
+		}
+
+		customerGatewayMock = mocks.NewMockCustomerGateway(t)
+		customerGatewayMock.On("Find", customerArg.CPF).Return(&customerArg, nil)
+		customerGatewayMock.On("Save", &customerArg).Return(nil)
+
+		useCase := usecase.NewCustomerUseCase(customerGatewayMock)
+		result, err := useCase.DisableCustomer(context.TODO(), string(customerArg.CPF))
+
+		assert.Nil(t, err)
+		assert.Equal(t, result, &entity.Customer{
+			Name:    testCustomerName,
+			Email:   testCustomerEmail,
+			CPF:     CPF("35679254077"),
+			Enabled: false,
 		})
 	})
 }
